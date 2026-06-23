@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORION — AI Career Transformation OS · Pranav Kumar</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060910;
+    --surface: #0d1117;
+    --surface2: #161b22;
+    --border: #21262d;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #f59e0b;
+    --green: #22c55e;
+    --red: #ef4444;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --font: 'Space Grotesk', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; line-height: 1.6; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(6,9,16,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 4px; overflow-x: auto; height: 52px; }
+  nav .logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 2px; margin-right: 20px; white-space: nowrap; font-weight: 600; }
+  nav button { background: none; border: none; color: var(--muted); font-family: var(--font); font-size: 12px; padding: 6px 12px; cursor: pointer; border-radius: 6px; white-space: nowrap; transition: all 0.15s; }
+  nav button:hover, nav button.active { background: var(--surface2); color: var(--text); }
+  nav button.active { color: var(--accent); }
+
+  /* HERO */
+  .hero { padding: 60px 32px 40px; max-width: 1100px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+  .hero-tag { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 700; line-height: 1.15; margin-bottom: 16px; }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub { color: var(--muted); font-size: 15px; max-width: 600px; margin-bottom: 32px; }
+  .score-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .score-chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 20px; min-width: 130px; }
+  .score-chip .label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .score-chip .val { font-size: 26px; font-weight: 700; font-family: var(--mono); }
+  .score-chip.primary .val { color: var(--accent); }
+  .score-chip.warn .val { color: var(--accent3); }
+  .score-chip.good .val { color: var(--green); }
+
+  /* SECTIONS */
+  .section { display: none; max-width: 1100px; margin: 0 auto; padding: 40px 32px; }
+  .section.active { display: block; }
+  .section-title { font-size: 11px; font-family: var(--mono); color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+  .section-h2 { font-size: 22px; font-weight: 600; margin-bottom: 24px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 700px) { .grid2, .grid3 { grid-template-columns: 1fr; } .hero { padding: 32px 16px 24px; } .section { padding: 24px 16px; } }
+
+  /* CARDS */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .card h3 { font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--text); }
+  .card p, .card li { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .card ul { padding-left: 16px; }
+
+  /* SKILL TABLE */
+  .tbl-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead { background: var(--surface2); }
+  th { text-align: left; padding: 10px 14px; color: var(--muted); font-weight: 500; font-family: var(--mono); font-size: 11px; letter-spacing: 0.5px; white-space: nowrap; }
+  td { padding: 10px 14px; border-top: 1px solid var(--border); vertical-align: middle; }
+  tr:hover td { background: var(--surface2); }
+
+  /* PILL / BADGE */
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 99px; font-family: var(--mono); }
+  .badge.high { background: rgba(34,197,94,0.12); color: var(--green); }
+  .badge.med { background: rgba(245,158,11,0.12); color: var(--accent3); }
+  .badge.low { background: rgba(239,68,68,0.12); color: var(--red); }
+  .badge.blue { background: rgba(0,212,255,0.12); color: var(--accent); }
+
+  /* PROGRESS BAR */
+  .bar-wrap { background: var(--surface2); border-radius: 99px; height: 6px; overflow: hidden; margin-top: 6px; }
+  .bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--accent2), var(--accent)); transition: width 0.6s ease; }
+  .bar-fill.green { background: linear-gradient(90deg, #16a34a, var(--green)); }
+  .bar-fill.amber { background: linear-gradient(90deg, #b45309, var(--accent3)); }
+  .bar-fill.red { background: linear-gradient(90deg, #b91c1c, var(--red)); }
+
+  /* MATCH CARD */
+  .match-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .match-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .match-pct { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--accent); }
+  .match-sub { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .fit-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+
+  /* ROADMAP TIMELINE */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 28px; }
+  .tl-dot { position: absolute; left: -24px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .tl-dot.amber { background: var(--accent3); box-shadow: 0 0 8px var(--accent3); }
+  .tl-dot.purple { background: var(--accent2); box-shadow: 0 0 8px var(--accent2); }
+  .tl-dot.green { background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .tl-phase { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-bottom: 4px; }
+  .tl-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .tl-body { font-size: 12.5px; color: var(--muted); }
+  .tl-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag { font-size: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; color: var(--muted); }
+
+  /* PROJECT CARD */
+  .proj-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .proj-num { font-family: var(--mono); font-size: 10px; color: var(--accent); margin-bottom: 6px; }
+  .proj-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .proj-meta { font-size: 11.5px; color: var(--muted); margin-bottom: 8px; }
+  .proj-stack { display: flex; flex-wrap: wrap; gap: 4px; }
+  .stack-tag { font-size: 10px; background: rgba(124,58,237,0.12); color: #a78bfa; border-radius: 4px; padding: 2px 6px; font-family: var(--mono); }
+
+  /* COMPANY TABLE */
+  .star { color: var(--accent3); }
+
+  /* SALARY */
+  .sal-track { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+  @media (max-width: 700px) { .sal-track { grid-template-columns: 1fr 1fr; } }
+  .sal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: center; }
+  .sal-yr { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+  .sal-amt { font-size: 20px; font-weight: 700; color: var(--accent); font-family: var(--mono); }
+  .sal-role { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  /* BRAND */
+  .brand-pillar { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .brand-pillar h3 { font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 10px; }
+
+  /* ACTION TABLE */
+  .priority-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 40px 24px; font-family: var(--mono); font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); margin-top: 40px; }
+  footer span { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">ORION·OS</div>
+  <button class="active" onclick="show('hero')">Overview</button>
+  <button onclick="show('p1')">Profile Analysis</button>
+  <button onclick="show('p2')">Career Fit</button>
+  <button onclick="show('p3')">Roadmap</button>
+  <button onclick="show('p4')">Skill Plan</button>
+  <button onclick="show('p5')">Projects</button>
+  <button onclick="show('p6')">Market</button>
+  <button onclick="show('p7')">Benchmark</button>
+  <button onclick="show('p8')">Salary</button>
+  <button onclick="show('p9')">Brand</button>
+  <button onclick="show('p10')">Action Plan</button>
+</nav>
+
+<!-- HERO -->
+<div id="hero" class="section active">
+  <div class="hero">
+    <div class="hero-tag">AI Career Transformation OS · Powered by ORION</div>
+    <h1>Pranav Kumar<br><span>AI Leadership Readiness Report</span></h1>
+    <p class="hero-sub">9+ years of B2B sales ops, ₹80L P&L ownership, IIM Kozhikode Strategic Management. Full 10-phase analysis for transition to AI Program Manager / AI GTM Leader.</p>
+    <div class="score-row">
+      <div class="score-chip primary"><div class="label">AI Readiness</div><div class="val">67/100</div></div>
+      <div class="score-chip warn"><div class="label">Leadership Score</div><div class="val">81/100</div></div>
+      <div class="score-chip good"><div class="label">Program Mgr Fit</div><div class="val">78%</div></div>
+      <div class="score-chip warn"><div class="label">GTM Strategy Fit</div><div class="val">74%</div></div>
+      <div class="score-chip primary"><div class="label">Time to Transition</div><div class="val">6–12 mo</div></div>
+      <div class="score-chip good"><div class="label">Target CTC</div><div class="val">₹25–32L</div></div>
+    </div>
+  </div>
+
+  <div style="max-width:1100px;margin:0 auto;padding:32px;">
+    <div class="grid3">
+      <div class="card">
+        <h3>🔥 Fastest Route</h3>
+        <p>AI Program Manager at a Series B–D SaaS or fintech. Leverage P&L + team leadership. Target: 6–9 months. Requires: 1 AI certification + 2 portfolio projects.</p>
+      </div>
+      <div class="card">
+        <h3>🛡️ Safest Route</h3>
+        <p>Head of RevOps / GTM Strategy at Razorpay, PhonePe, CRED. Natural extension of current skill stack. Target: 9–12 months via IIM Kozhikode + Salesforce Admin cert.</p>
+      </div>
+      <div class="card">
+        <h3>💰 Highest Paying Route</h3>
+        <p>AI Transformation Manager at a global MNC / consulting firm (Deloitte, PwC, Accenture GCC). Requires: Certified AI PM (AIPM) + 3–4 AI deployment case studies. Target: ₹30–40L at 18 months.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <h3>Executive Summary — Brutally Honest Assessment</h3>
+      <p>Pranav has above-average leadership capital for an AI management role — P&L ownership at ₹80L/month, 9+ years of quota-carrying team management, and a demonstrated ability to build BI and AI-assisted tools (HEIMDALL, ORION, RevOS, Bombasandra Dashboard). The IIM Kozhikode credential adds strategic credibility. <br><br>The gaps are technical depth and AI vocabulary. Python is beginner-level, no LLM deployment experience, and portfolio projects are UI-heavy rather than backend-AI-heavy. The fastest fix: 2 RAG or AI Agent projects on GitHub, one Prompt Engineering certification, and repositioning LinkedIn from "sales manager" to "RevOps + AI systems" language. The transition is entirely achievable within 12 months if execution is disciplined.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 1: PROFILE ANALYSIS -->
+<div id="p1" class="section">
+  <div class="section-title">Phase 1</div>
+  <div class="section-h2">Deep Profile Analysis</div>
+
+  <div class="grid2" style="margin-bottom:24px;">
+    <div class="card">
+      <h3>Professional Maturity</h3>
+      <ul>
+        <li><strong>Role Maturity:</strong> Senior IC → Mid-level Leader. Managing 9–25+ person teams, P&L of ₹80L/month, multi-city operations.</li>
+        <li><strong>Leadership Strengths:</strong> Field team management, target-setting, funnel accountability, cross-functional coordination.</li>
+        <li><strong>Business Acumen:</strong> Strong. Revenue ownership, CAC analysis, vendor/partner negotiations, enterprise onboarding.</li>
+        <li><strong>Strategic Thinking:</strong> Emerging. IIM Kozhikode engagement + ORION OS show strategic intent. Not yet at VP-level strategy framing.</li>
+        <li><strong>Technical Readiness:</strong> Intermediate. Power BI, Excel (advanced), SQL (basic), Salesforce, Claude/ChatGPT APIs via dashboards.</li>
+        <li><strong>AI Readiness:</strong> Early-intermediate. Built AI-assisted tools, Anthropic API integrations, understands LLM prompt structure.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Current vs Target Role Gap</h3>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Leadership Capability</span><span style="color:var(--green)">High ▲</span></div>
+        <div class="bar-wrap"><div class="bar-fill green" style="width:82%"></div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Business / P&L Ownership</span><span style="color:var(--green)">High ▲</span></div>
+        <div class="bar-wrap"><div class="bar-fill green" style="width:78%"></div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>AI Product Knowledge</span><span style="color:var(--accent3)">Medium ◆</span></div>
+        <div class="bar-wrap"><div class="bar-fill amber" style="width:42%"></div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Python / ML Engineering</span><span style="color:var(--red)">Low ▼</span></div>
+        <div class="bar-wrap"><div class="bar-fill red" style="width:22%"></div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Prompt Engineering / LLMs</span><span style="color:var(--accent3)">Medium ◆</span></div>
+        <div class="bar-wrap"><div class="bar-fill amber" style="width:48%"></div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Program / Project Management</span><span style="color:var(--green)">High ▲</span></div>
+        <div class="bar-wrap"><div class="bar-fill green" style="width:72%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Skill</th><th>Current Level</th><th>Market Req.</th><th>Gap</th><th>Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Leadership / Team Mgmt</td><td><span class="badge high">Advanced</span></td><td>Advanced</td><td style="color:var(--green)">None</td><td><span class="badge high">P1</span></td></tr>
+        <tr><td>B2B Sales Strategy</td><td><span class="badge high">Expert</span></td><td>Intermediate</td><td style="color:var(--green)">None (surplus)</td><td><span class="badge blue">P3</span></td></tr>
+        <tr><td>P&L / Revenue Ownership</td><td><span class="badge high">Advanced</span></td><td>Advanced</td><td style="color:var(--green)">None</td><td><span class="badge high">P1</span></td></tr>
+        <tr><td>Product Management</td><td><span class="badge med">Beginner</span></td><td>Intermediate</td><td style="color:var(--accent3)">Medium</td><td><span class="badge high">P1</span></td></tr>
+        <tr><td>AI Strategy / Roadmap</td><td><span class="badge med">Beginner</span></td><td>Intermediate</td><td style="color:var(--accent3)">Medium</td><td><span class="badge high">P1</span></td></tr>
+        <tr><td>Python</td><td><span class="badge low">Beginner</span></td><td>Intermediate</td><td style="color:var(--red)">High</td><td><span class="badge high">P1</span></td></tr>
+        <tr><td>SQL</td><td><span class="badge med">Basic</span></td><td>Intermediate</td><td style="color:var(--accent3)">Medium</td><td><span class="badge high">P1</span></td></tr>
+        <tr><td>Prompt Engineering</td><td><span class="badge med">Intermediate</span></td><td>Intermediate</td><td style="color:var(--green)">Low</td><td><span class="badge med">P2</span></td></tr>
+        <tr><td>LLMs / GenAI Concepts</td><td><span class="badge med">Beginner+</span></td><td>Intermediate</td><td style="color:var(--accent3)">Medium</td><td><span class="badge high">P1</span></td></tr>
+        <tr><td>RAG / Vector DBs</td><td><span class="badge low">None</span></td><td>Basic</td><td style="color:var(--red)">High</td><td><span class="badge high">P2</span></td></tr>
+        <tr><td>LangChain / LangGraph</td><td><span class="badge low">None</span></td><td>Basic</td><td style="color:var(--red)">High</td><td><span class="badge med">P2</span></td></tr>
+        <tr><td>Power BI / Data Analytics</td><td><span class="badge high">Advanced</span></td><td>Intermediate</td><td style="color:var(--green)">None</td><td><span class="badge blue">P3</span></td></tr>
+        <tr><td>Stakeholder Management</td><td><span class="badge high">Advanced</span></td><td>Advanced</td><td style="color:var(--green)">None</td><td><span class="badge blue">P3</span></td></tr>
+        <tr><td>Salesforce CRM</td><td><span class="badge med">Intermediate</span></td><td>Intermediate</td><td style="color:var(--green)">Low</td><td><span class="badge med">P2</span></td></tr>
+        <tr><td>AI Agents (CrewAI/LangGraph)</td><td><span class="badge low">None</span></td><td>Basic</td><td style="color:var(--red)">High</td><td><span class="badge med">P2</span></td></tr>
+        <tr><td>Program Management</td><td><span class="badge high">Advanced</span></td><td>Advanced</td><td style="color:var(--green)">None</td><td><span class="badge blue">P3</span></td></tr>
+        <tr><td>Cloud AI (Azure/AWS)</td><td><span class="badge low">None</span></td><td>Basic</td><td style="color:var(--accent3)">Medium</td><td><span class="badge med">P2</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PHASE 2: CAREER FIT -->
+<div id="p2" class="section">
+  <div class="section-title">Phase 2</div>
+  <div class="section-h2">Career Fit Analysis</div>
+  <div class="grid3">
+
+    <div class="match-card">
+      <div class="match-title">AI Program Manager</div>
+      <div class="match-pct">78%</div>
+      <div class="match-sub">⭐ Best Immediate Fit · 6–9 months</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Why fit: P&L ownership, cross-functional ops, target management, team leadership all directly transfer. Strong execution + reporting muscle.</div>
+      <div style="font-size:12px;color:var(--red);margin-bottom:8px;">Gap: No formal PM certification, no AI deployment project ownership. Limited JIRA/Confluence usage.</div>
+      <div class="fit-row"><span class="badge high">High Match</span><span class="badge blue">Fast Path</span></div>
+    </div>
+
+    <div class="match-card">
+      <div class="match-title">AI GTM / RevOps Strategy</div>
+      <div class="match-pct">74%</div>
+      <div class="match-sub">⭐ Natural Fit · 9–12 months</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Why fit: Deep revenue ops experience, funnel analytics, CAC/LTV understanding, IIM Kozhikode positioning. Best brand-story alignment.</div>
+      <div style="font-size:12px;color:var(--red);margin-bottom:8px;">Gap: Need GTM tool stack exposure (HubSpot, Gong, Clari), formal RevOps certification.</div>
+      <div class="fit-row"><span class="badge high">High Match</span><span class="badge med">Strategic</span></div>
+    </div>
+
+    <div class="match-card">
+      <div class="match-title">AI Transformation Manager</div>
+      <div class="match-pct">71%</div>
+      <div class="match-sub">Strong Mid-term Fit · 12–18 months</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Why fit: Change management experience, multi-team coordination, business metrics ownership. Can pitch AI ROI to leadership from operator's lens.</div>
+      <div style="font-size:12px;color:var(--red);margin-bottom:8px;">Gap: Need 2–3 real AI deployment case studies. No consulting toolkit (RACI, change frameworks).</div>
+      <div class="fit-row"><span class="badge med">Med Match</span><span class="badge med">Mid-term</span></div>
+    </div>
+
+    <div class="match-card">
+      <div class="match-title">AI Product Manager</div>
+      <div class="match-pct">62%</div>
+      <div class="match-sub">Stretch Goal · 12–18 months</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Why fit: Customer empathy from field sales, data analytics background, ORION OS as proof of product thinking.</div>
+      <div style="font-size:12px;color:var(--red);margin-bottom:8px;">Gap: No formal PM experience, no PRD/user story writing history, no product A/B testing. Significant reskilling needed.</div>
+      <div class="fit-row"><span class="badge med">Stretch</span><span class="badge blue">High Pay</span></div>
+    </div>
+
+    <div class="match-card">
+      <div class="match-title">AI Solutions Consultant</div>
+      <div class="match-pct">68%</div>
+      <div class="match-sub">Good Alternative · 9–12 months</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Why fit: Client-facing skills, solution selling, ROI framing. Bridges sales background with AI advisory.</div>
+      <div style="font-size:12px;color:var(--red);margin-bottom:8px;">Gap: Need technical demonstration ability (live AI demos), proposal writing skills for enterprise RFPs.</div>
+      <div class="fit-row"><span class="badge med">Good Alt</span></div>
+    </div>
+
+    <div class="match-card">
+      <div class="match-title">AI Operations Manager</div>
+      <div class="match-pct">76%</div>
+      <div class="match-sub">Strong Fit · 6–9 months</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Why fit: Operations excellence, SOP design, team KPI management, scale experience. Operations of AI tools vs building AI tools.</div>
+      <div style="font-size:12px;color:var(--red);margin-bottom:8px;">Gap: AI-specific ops frameworks, OKR tooling, AI vendor evaluation.</div>
+      <div class="fit-row"><span class="badge high">High Match</span></div>
+    </div>
+
+    <div class="match-card">
+      <div class="match-title">Head of RevOps</div>
+      <div class="match-pct">82%</div>
+      <div class="match-sub">⭐ Highest Confidence · 6–9 months</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Why fit: This is the most natural transition. Revenue ops, analytics, cross-functional, IIM Kozhikode — all align. Pure continuation with title upgrade.</div>
+      <div style="font-size:12px;color:var(--red);margin-bottom:8px;">Gap: HubSpot/CRM admin experience, RevOps toolstack certifications (Salesforce RevOps), product-led growth concepts.</div>
+      <div class="fit-row"><span class="badge high">Best Fit Now</span><span class="badge blue">₹20–28L</span></div>
+    </div>
+
+    <div class="match-card">
+      <div class="match-title">AI Strategy Manager</div>
+      <div class="match-pct">65%</div>
+      <div class="match-sub">Long-term Aspiration · 18–24 months</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Why fit: IIM Kozhikode gives strategy credibility. Business acumen is strong. Can quantify AI ROI from operator's POV.</div>
+      <div style="font-size:12px;color:var(--red);margin-bottom:8px;">Gap: Need consulting or strategy project portfolio, executive-level AI frameworks, board-level presentation experience.</div>
+      <div class="fit-row"><span class="badge med">Long-term</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PHASE 3: ROADMAP -->
+<div id="p3" class="section">
+  <div class="section-title">Phase 3</div>
+  <div class="section-h2">Executive AI Career Roadmap</div>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-phase">30 DAYS · Jul–Aug 2026</div>
+      <div class="tl-title">Foundation Sprint</div>
+      <div class="tl-body">
+        <strong>Learn:</strong> Complete Andrew Ng's "AI for Everyone" (Coursera, 6h). Start Python basics (Python for Everybody, Coursera). Learn Prompt Engineering fundamentals — Anthropic & DeepLearning.AI.<br><br>
+        <strong>Build:</strong> One AI-powered portfolio project using Claude API (e.g., AI Sales Coach chatbot or RevOps KPI Analyzer). Publish on GitHub with README.<br><br>
+        <strong>Remove:</strong> "Sales Manager" framing from LinkedIn headline. Remove generic soft-skill bullets from resume experience sections.<br><br>
+        <strong>Improve:</strong> LinkedIn headline → "RevOps & AI Systems Leader | IIM Kozhikode | 9Y P&L Ownership". Add IIM Kozhikode to Education prominently. Update About section with AI transition narrative.<br><br>
+        <strong>Expected Outcome:</strong> LinkedIn profile repositioned. One AI project live. Prompt Engineering fundamentals certified.
+      </div>
+      <div class="tl-tags"><span class="tag">AI for Everyone</span><span class="tag">Python Basics</span><span class="tag">Prompt Engineering</span><span class="tag">LinkedIn Rebrand</span><span class="tag">1 AI Project</span></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot amber"></div>
+      <div class="tl-phase">90 DAYS · Aug–Sep 2026</div>
+      <div class="tl-title">Skill Build + Portfolio Expansion</div>
+      <div class="tl-body">
+        <strong>Technical:</strong> Python (Pandas, APIs). LLM fundamentals — how transformers work, tokenization, embeddings. Build first RAG system using LangChain + Chroma/FAISS. Complete Google's "Intro to Generative AI" path.<br><br>
+        <strong>Business:</strong> Study 3 AI transformation case studies (Salesforce Einstein, HubSpot AI, Razorpay AI underwriting). Build one AI-ROI business case document for your current magicpin role.<br><br>
+        <strong>Leadership:</strong> Start writing 2× weekly LinkedIn posts on AI + RevOps intersection. Engage with 5 RevOps/AI PMs on LinkedIn per week.<br><br>
+        <strong>Projects:</strong> AI RevOps Dashboard (RAG + Power BI backend). Sales AI Pipeline Predictor (Python + Claude API).<br><br>
+        <strong>Certifications:</strong> Google AI Essentials (Coursera). AWS Cloud Practitioner (if budget allows).<br><br>
+        <strong>Expected Outcome:</strong> 3 AI projects on GitHub. Google AI cert. Active LinkedIn presence with 500+ profile views/week.
+      </div>
+      <div class="tl-tags"><span class="tag">Python+Pandas</span><span class="tag">RAG System</span><span class="tag">LangChain</span><span class="tag">Google AI Essentials</span><span class="tag">LinkedIn Content</span></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot purple"></div>
+      <div class="tl-phase">180 DAYS · Oct–Dec 2026</div>
+      <div class="tl-title">Advanced Skills + Active Job Search</div>
+      <div class="tl-body">
+        <strong>Advanced AI:</strong> LangGraph Agents. Build multi-agent orchestration project (AI SDR + RevOps Agent). Study RAG advanced patterns: hybrid search, reranking.<br><br>
+        <strong>Management Skills:</strong> AI PM frameworks (RICE, AI-specific prioritization). Write 2 AI PRD documents. Complete IIM Kozhikode capstone with AI strategy theme.<br><br>
+        <strong>Portfolio Upgrades:</strong> ORION AI Business OS fully deployed. AI Agent for magicpin sales pipeline live. Flagship RAG case study documented with business outcomes.<br><br>
+        <strong>Target Interviews:</strong> Begin applying to Razorpay, CRED, Urban Company for RevOps + AI roles. Target hybrid / people-management positions.<br><br>
+        <strong>Expected Outcome:</strong> 6+ portfolio projects. Resume ATS-optimised for AI + RevOps. 3–5 interview calls at target companies.
+      </div>
+      <div class="tl-tags"><span class="tag">LangGraph</span><span class="tag">AI Agents</span><span class="tag">PRD Writing</span><span class="tag">IIM Capstone</span><span class="tag">Active Applications</span></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot green"></div>
+      <div class="tl-phase">365 DAYS · Jun 2027</div>
+      <div class="tl-title">Target Role Achieved</div>
+      <div class="tl-body">
+        <strong>Target Titles:</strong> Head of RevOps, AI Program Manager, GTM Strategy Lead, AI Transformation Manager.<br><br>
+        <strong>Expected Salary:</strong> ₹24–32 LPA (India). ₹35–45L at MNC / GCC / consulting firm.<br><br>
+        <strong>Leadership Positioning:</strong> Established AI + RevOps thought leader on LinkedIn (5K+ followers). IIM Kozhikode alumni network active. 2–3 speaking engagements or podcast appearances in sales/AI space.<br><br>
+        <strong>Expected Outcome:</strong> Offer signed at target company. ₹25L+ CTC. People management + strategy mandate. No pure IC sales target.
+      </div>
+      <div class="tl-tags"><span class="tag">₹25–32L CTC</span><span class="tag">Head of RevOps / AI PM</span><span class="tag">No Sales IC Mandate</span><span class="tag">IIM Kozhikode Alumni</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PHASE 4: SKILL PLAN -->
+<div id="p4" class="section">
+  <div class="section-title">Phase 4</div>
+  <div class="section-h2">Skill Development Master Plan — ROI Ranked</div>
+  <div class="tbl-wrap" style="margin-bottom:24px;">
+    <table>
+      <thead>
+        <tr><th>Rank</th><th>Skill</th><th>Impact</th><th>Difficulty</th><th>ROI Score</th><th>Priority</th><th>Best Resource</th><th>Time</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Prompt Engineering</td><td>High</td><td>Low</td><td style="color:var(--green);font-weight:700">9.5</td><td><span class="badge high">P1</span></td><td>DeepLearning.AI + Anthropic Docs</td><td>2 weeks</td></tr>
+        <tr><td>2</td><td>Python (Pandas, APIs)</td><td>High</td><td>Medium</td><td style="color:var(--green);font-weight:700">9.0</td><td><span class="badge high">P1</span></td><td>Python for Everybody (Coursera)</td><td>6 weeks</td></tr>
+        <tr><td>3</td><td>LLM Fundamentals + GenAI</td><td>High</td><td>Low</td><td style="color:var(--green);font-weight:700">8.8</td><td><span class="badge high">P1</span></td><td>Google AI Essentials + fast.ai</td><td>3 weeks</td></tr>
+        <tr><td>4</td><td>RAG Systems</td><td>High</td><td>Medium</td><td style="color:var(--accent3);font-weight:700">8.5</td><td><span class="badge high">P1</span></td><td>LangChain docs + DeepLearning.AI RAG course</td><td>4 weeks</td></tr>
+        <tr><td>5</td><td>SQL (Intermediate)</td><td>Medium</td><td>Low</td><td style="color:var(--accent3);font-weight:700">8.2</td><td><span class="badge high">P1</span></td><td>Mode Analytics SQL School</td><td>3 weeks</td></tr>
+        <tr><td>6</td><td>AI Product Management</td><td>High</td><td>Medium</td><td style="color:var(--accent3);font-weight:700">8.0</td><td><span class="badge high">P1</span></td><td>Reforge AI PM, Product School</td><td>6 weeks</td></tr>
+        <tr><td>7</td><td>LangChain</td><td>High</td><td>Medium</td><td style="color:var(--accent3);font-weight:700">7.8</td><td><span class="badge med">P2</span></td><td>LangChain Docs + YouTube (Patrick Loeber)</td><td>4 weeks</td></tr>
+        <tr><td>8</td><td>AI Agents / LangGraph</td><td>High</td><td>High</td><td style="color:var(--accent3);font-weight:700">7.5</td><td><span class="badge med">P2</span></td><td>DeepLearning.AI Agentic AI course</td><td>6 weeks</td></tr>
+        <tr><td>9</td><td>Power BI Advanced</td><td>Medium</td><td>Low</td><td style="color:var(--accent3);font-weight:700">7.2</td><td><span class="badge med">P2</span></td><td>Microsoft Learn + Guy in a Cube (YT)</td><td>3 weeks</td></tr>
+        <tr><td>10</td><td>Salesforce Admin / RevOps</td><td>High</td><td>Medium</td><td style="color:var(--accent3);font-weight:700">7.0</td><td><span class="badge med">P2</span></td><td>Trailhead Sales Ops Specialist path</td><td>6 weeks</td></tr>
+        <tr><td>11</td><td>Claude API / OpenAI API</td><td>High</td><td>Low</td><td style="color:var(--accent3);font-weight:700">7.0</td><td><span class="badge med">P2</span></td><td>Anthropic Docs + OpenAI Cookbook</td><td>2 weeks</td></tr>
+        <tr><td>12</td><td>MCP Protocol</td><td>Medium</td><td>Medium</td><td style="color:var(--accent3);font-weight:700">6.8</td><td><span class="badge med">P2</span></td><td>Anthropic MCP Docs</td><td>2 weeks</td></tr>
+        <tr><td>13</td><td>Vector Databases</td><td>Medium</td><td>Medium</td><td style="color:var(--accent3);font-weight:700">6.5</td><td><span class="badge med">P2</span></td><td>Pinecone Learn + Chroma Docs</td><td>2 weeks</td></tr>
+        <tr><td>14</td><td>AWS / Azure AI Basics</td><td>Medium</td><td>Medium</td><td style="color:var(--accent3);font-weight:700">6.3</td><td><span class="badge blue">P3</span></td><td>AWS Cloud Practitioner (Udemy)</td><td>4 weeks</td></tr>
+        <tr><td>15</td><td>CrewAI / Multi-Agent Systems</td><td>Medium</td><td>High</td><td style="color:var(--muted);font-weight:700">5.8</td><td><span class="badge blue">P3</span></td><td>CrewAI Docs + GitHub examples</td><td>3 weeks</td></tr>
+        <tr><td>16</td><td>LLMOps</td><td>Medium</td><td>High</td><td style="color:var(--muted);font-weight:700">5.5</td><td><span class="badge blue">P3</span></td><td>MLflow + LangSmith Docs</td><td>4 weeks</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Recommended Learning Sequence</h3>
+    <p><strong>Week 1–2:</strong> Prompt Engineering (Anthropic Docs + DeepLearning.AI) → <strong>Week 3–6:</strong> Python Pandas + APIs → <strong>Week 7–9:</strong> LLM Fundamentals + Google AI Essentials cert → <strong>Week 10–14:</strong> RAG + LangChain + Vector DBs → <strong>Week 15–18:</strong> AI Agents / LangGraph → <strong>Week 19–24:</strong> AI PM frameworks + Salesforce RevOps path → <strong>Month 6+:</strong> LLMOps + AWS AI basics. Total: 6 months of 1–2 hours/day focused learning.</p>
+  </div>
+</div>
+
+<!-- PHASE 5: PROJECTS -->
+<div id="p5" class="section">
+  <div class="section-title">Phase 5</div>
+  <div class="section-h2">Portfolio Project Strategy — Top 20</div>
+  <div class="grid3">
+
+    <div class="proj-card">
+      <div class="proj-num">P01 · AI AGENTS</div>
+      <div class="proj-title">ORION Sales Coach Agent</div>
+      <div class="proj-meta">AI agent that coaches field reps on objection handling using RAG on internal sales playbooks. Auto-generates call scripts.</div>
+      <div class="proj-stack"><span class="stack-tag">LangGraph</span><span class="stack-tag">Claude API</span><span class="stack-tag">RAG</span><span class="stack-tag">Chroma</span></div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">P02 · RAG SYSTEMS</div>
+      <div class="proj-title">RevOps Knowledge Base (RAG)</div>
+      <div class="proj-meta">Internal Q&A system over CRM data, revenue reports, and process docs. Ask "Why did Q2 miss target?" and get AI-synthesized answer.</div>
+      <div class="proj-stack"><span class="stack-tag">LangChain</span><span class="stack-tag">FAISS</span><span class="stack-tag">OpenAI</span><span class="stack-tag">Streamlit</span></div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">P03 · EXECUTIVE DASHBOARDS</div>
+      <div class="proj-title">AI-Powered CEO Revenue OS</div>
+      <div class="proj-meta">Natural language query interface over Power BI data. CEO types "Show me bottom 3 territories by LTV" — AI answers with charts.</div>
+      <div class="proj-stack"><span class="stack-tag">Claude API</span><span class="stack-tag">Power BI</span><span class="stack-tag">Python</span><span class="stack-tag">FastAPI</span></div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">P04 · SALES AI</div>
+      <div class="proj-title">Lead Scoring AI (magicpin)</div>
+      <div class="proj-meta">ML model + LLM explanation layer to score and rank SME leads by conversion probability. Includes "why this lead" narrative generation.</div>
+      <div class="proj-stack"><span class="stack-tag">Python</span><span class="stack-tag">Scikit-learn</span><span class="stack-tag">Claude API</span><span class="stack-tag">Pandas</span></div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">P05 · OPERATIONS AI</div>
+      <div class="proj-title">SOP Generator Agent</div>
+      <div class="proj-meta">Upload a process description → AI generates structured SOP with RACI matrix, escalation tree, KPI checklist. Built for ops teams.</div>
+      <div class="proj-stack"><span class="stack-tag">Claude API</span><span class="stack-tag">MCP</span><span class="stack-tag">React</span></div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">P06 · AI LEADERSHIP</div>
+      <div class="proj-title">AI ROI Business Case Builder</div>
+      <div class="proj-meta">Input: use case + team size + current cost → Output: executive-ready business case with ROI projections, risk matrix, adoption roadmap.</div>
+      <div class="proj-stack"><span class="stack-tag">Claude API</span><span class="stack-tag">HTML/JS</span><span class="stack-tag">Anthropic SDK</span></div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">P07 · MARKETING AI</div>
+      <div class="proj-title">Hyper-Local Campaign AI</div>
+      <div class="proj-meta">Generates geo-targeted campaign copy for restaurant/retail clients based on footfall data, local events, and competitor positioning.</div>
+      <div class="proj-stack"><span class="stack-tag">Python</span><span class="stack-tag">Claude API</span><span class="stack-tag">Maps API</span></div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">P08 · RAG SYSTEMS</div>
+      <div class="proj-title">Contract Intelligence System</div>
+      <div class="proj-meta">Upload vendor contracts → RAG system extracts payment terms, penalties, renewal clauses. Flags risks automatically.</div>
+      <div class="proj-stack"><span class="stack-tag">LangChain</span><span class="stack-tag">PDF parsing</span><span class="stack-tag">Pinecone</span><span class="stack-tag">Claude</span></div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">P09 · AI AGENTS</div>
+      <div class="proj-title">Multi-Agent RevOps Crew</div>
+      <div class="proj-meta">3-agent system: Pipeline Analyst + Churn Detector + Deal Coach. Runs nightly, posts Slack digest with recommended actions.</div>
+      <div class="proj-stack"><span class="stack-tag">CrewAI</span><span class="stack-tag">Slack API</span><span class="stack-tag">Salesforce</span><span class="stack-tag">Claude</span></div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">P10 · EXECUTIVE DASHBOARDS</div>
+      <div class="proj-title">HEIMDALL II — AI Intel Platform</div>
+      <div class="proj-meta">Upgrade of existing HEIMDALL with live market data feeds, competitor monitoring, and AI narrative synthesis for weekly executive briefing.</div>
+      <div class="proj-stack"><span class="stack-tag">Claude API</span><span class="stack-tag">Web Search</span><span class="stack-tag">LangChain</span><span class="stack-tag">Chart.js</span></div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">P11 · SALES AI</div>
+      <div class="proj-title">Churn Prediction + Retention Script AI</div>
+      <div class="proj-meta">Predict which SME accounts are at churn risk + auto-generate personalised retention outreach script for the account manager.</div>
+      <div class="proj-stack"><span class="stack-tag">Python</span><span class="stack-tag">XGBoost</span><span class="stack-tag">Claude API</span></div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-num">P12 · OPERATIONS AI</div>
+      <div class="proj-title">Territory Planning Optimizer</div>
+      <div class="proj-meta">AI assistant that recommends optimal territory allocation based on market density, rep performance history, and revenue potential.</div>
+      <div class="proj-stack"><span class="stack-tag">Python</span><span class="stack-tag">Folium Maps</span><span class="stack-tag">Claude API</span><span class="stack-tag">Pandas</span></div>
+    </div>
+
+  </div>
+  <div class="card" style="margin-top:16px;">
+    <h3>8 More Projects (P13–P20)</h3>
+    <p>P13: Interview Prep AI Agent — RAG over job descriptions + coaching loop. P14: AI Meeting Summarizer + Action Item Extractor. P15: Competitive Intelligence RAG Bot. P16: Sales Training LMS powered by LLM. P17: Customer Success Playbook AI. P18: Pricing Strategy AI Advisor. P19: AI-Powered Talent Screener for sales roles. P20: ORION AI OS v2 — Capstone project integrating agents, RAG, dashboards, and LLMOps into one unified platform.</p>
+  </div>
+</div>
+
+<!-- PHASE 6: MARKET -->
+<div id="p6" class="section">
+  <div class="section-title">Phase 6</div>
+  <div class="section-h2">Global Market Analysis — Target Companies</div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h3>⭐ Top 25 Dream Companies — India Priority List</h3>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Priority</th><th>Company</th><th>Role Match</th><th>AI Maturity</th><th>Salary Potential</th><th>Hiring Prob.</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="star">★★★</span></td><td><strong>Razorpay</strong></td><td>Head of RevOps</td><td>High</td><td>₹25–35L</td><td><span class="badge high">High</span></td><td>Strong RevOps culture, AI-forward GTM</td></tr>
+        <tr><td><span class="star">★★★</span></td><td><strong>PhonePe</strong></td><td>GTM Strategy Lead</td><td>High</td><td>₹22–30L</td><td><span class="badge high">High</span></td><td>Massive scale, P&L alignment</td></tr>
+        <tr><td><span class="star">★★★</span></td><td><strong>CRED</strong></td><td>AI Program Mgr</td><td>Very High</td><td>₹24–32L</td><td><span class="badge med">Medium</span></td><td>Niche culture fit; needs strong brand</td></tr>
+        <tr><td><span class="star">★★★</span></td><td><strong>Urban Company</strong></td><td>RevOps / Ops AI Lead</td><td>High</td><td>₹20–28L</td><td><span class="badge high">High</span></td><td>Ops-heavy, field leadership valued</td></tr>
+        <tr><td><span class="star">★★★</span></td><td><strong>Meesho</strong></td><td>GTM Ops Lead</td><td>High</td><td>₹20–28L</td><td><span class="badge high">High</span></td><td>Growth-phase, leadership gaps to fill</td></tr>
+        <tr><td><span class="star">★★★</span></td><td><strong>Freshworks</strong></td><td>AI Solutions Manager</td><td>Very High</td><td>₹25–35L</td><td><span class="badge med">Medium</span></td><td>Product + AI strong; needs PM skills</td></tr>
+        <tr><td><span class="star">★★</span></td><td>Zepto</td><td>RevOps AI Lead</td><td>High</td><td>₹22–30L</td><td><span class="badge med">Medium</span></td><td>Quick commerce ops opportunity</td></tr>
+        <tr><td><span class="star">★★</span></td><td>Juspay</td><td>AI Program Mgr</td><td>High</td><td>₹20–28L</td><td><span class="badge med">Medium</span></td><td>Fintech, Bengaluru-based</td></tr>
+        <tr><td><span class="star">★★</span></td><td>Leadsquared</td><td>RevOps / AI Transformation</td><td>Medium</td><td>₹18–24L</td><td><span class="badge high">High</span></td><td>CRM SaaS, high RevOps need</td></tr>
+        <tr><td><span class="star">★★</span></td><td>Chargebee</td><td>RevOps Strategy</td><td>High</td><td>₹22–30L</td><td><span class="badge med">Medium</span></td><td>Global SaaS RevOps culture</td></tr>
+        <tr><td><span class="star">★★</span></td><td>Zoho</td><td>AI Solutions Consultant</td><td>Very High</td><td>₹18–25L</td><td><span class="badge high">High</span></td><td>Broad AI portfolio, internal mobility</td></tr>
+        <tr><td><span class="star">★★</span></td><td>Salesforce India</td><td>AI Success Manager</td><td>Very High</td><td>₹25–38L</td><td><span class="badge med">Medium</span></td><td>Needs Salesforce certs</td></tr>
+        <tr><td><span class="star">★★</span></td><td>Microsoft India</td><td>AI Transformation Manager</td><td>Very High</td><td>₹28–40L</td><td><span class="badge low">Low–Med</span></td><td>High bar, needs consulting profile</td></tr>
+        <tr><td><span class="star">★★</span></td><td>Accenture / Deloitte GCC</td><td>AI Change Manager</td><td>Very High</td><td>₹24–38L</td><td><span class="badge med">Medium</span></td><td>Consulting toolkit needed</td></tr>
+        <tr><td><span class="star">★★</span></td><td>Swiggy</td><td>Ops AI / RevOps Lead</td><td>High</td><td>₹22–30L</td><td><span class="badge med">Medium</span></td><td>Hyper-ops environment</td></tr>
+        <tr><td><span class="star">★</span></td><td>Atlassian India</td><td>AI Program Manager</td><td>Very High</td><td>₹28–38L</td><td><span class="badge low">Low</span></td><td>High technical bar</td></tr>
+        <tr><td><span class="star">★</span></td><td>Nykaa</td><td>GTM AI Lead</td><td>Medium</td><td>₹18–24L</td><td><span class="badge med">Medium</span></td><td>Commerce + AI intersection</td></tr>
+        <tr><td><span class="star">★</span></td><td>OLA / Ola Electric</td><td>Ops Strategy / AI</td><td>High</td><td>₹20–28L</td><td><span class="badge med">Medium</span></td><td>Scale ops, Bengaluru HQ</td></tr>
+        <tr><td><span class="star">★</span></td><td>Darwinbox</td><td>AI Product Manager</td><td>High</td><td>₹20–28L</td><td><span class="badge med">Medium</span></td><td>HRtech AI, Hyderabad/BLR</td></tr>
+        <tr><td><span class="star">★</span></td><td>CleverTap</td><td>RevOps Manager</td><td>High</td><td>₹18–24L</td><td><span class="badge high">High</span></td><td>Marketing AI, RevOps-heavy</td></tr>
+        <tr><td><span class="star">★</span></td><td>Postman</td><td>AI Program Manager</td><td>Very High</td><td>₹25–35L</td><td><span class="badge low">Low</span></td><td>Developer-facing, needs tech depth</td></tr>
+        <tr><td><span class="star">★</span></td><td>InMobi</td><td>AI GTM Manager</td><td>High</td><td>₹22–30L</td><td><span class="badge med">Medium</span></td><td>AdTech AI, global exposure</td></tr>
+        <tr><td><span class="star">★</span></td><td>Perfios</td><td>AI Solutions Mgr</td><td>High</td><td>₹20–26L</td><td><span class="badge med">Medium</span></td><td>Fintech data AI</td></tr>
+        <tr><td><span class="star">★</span></td><td>Paytm / One97</td><td>AI Ops Manager</td><td>High</td><td>₹20–28L</td><td><span class="badge med">Medium</span></td><td>Ops scale + fintech AI</td></tr>
+        <tr><td><span class="star">★</span></td><td>Locus.sh</td><td>AI Program Mgr</td><td>High</td><td>₹20–26L</td><td><span class="badge high">High</span></td><td>Logistics AI, strong ops culture</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PHASE 7: BENCHMARK -->
+<div id="p7" class="section">
+  <div class="section-title">Phase 7</div>
+  <div class="section-h2">Competitor Benchmarking</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Profile Type</th><th>Typical Background</th><th>Pranav's Position</th><th>Gap</th><th>Action Required</th><th>Timeline</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>AI PM at Google</strong></td>
+          <td>CS/MBA, 2–3 yrs PM, AI side projects, shipped product features</td>
+          <td style="color:var(--accent3)">Below — no formal PM experience, no shipped product</td>
+          <td>Large</td>
+          <td>Build 3 AI product case studies. Write PRDs. Complete PM cert (Product School / Reforge)</td>
+          <td>18–24 months</td>
+        </tr>
+        <tr>
+          <td><strong>AI Manager at Microsoft</strong></td>
+          <td>MBA + consulting background, AI transformation project ownership, team of 10+</td>
+          <td style="color:var(--accent3)">Partially aligned — team leadership matches, AI deployment does not</td>
+          <td>Medium</td>
+          <td>1–2 real AI deployment case studies at magicpin. Frame magicpin projects as AI transformation.</td>
+          <td>12–18 months</td>
+        </tr>
+        <tr>
+          <td><strong>AI Program Mgr at Amazon</strong></td>
+          <td>Ops background, PMP/CAPM, data-driven, cross-functional leadership</td>
+          <td style="color:var(--green)">Close match — Pranav's ops depth, P&L ownership, team leadership directly comparable</td>
+          <td>Small</td>
+          <td>Get PMP or Google PM cert. Build one programme management portfolio deliverable (RACI, roadmap deck).</td>
+          <td>6–9 months</td>
+        </tr>
+        <tr>
+          <td><strong>AI Leader at OpenAI</strong></td>
+          <td>Deep ML research or senior product leadership, AI-native background, top-tier pedigree</td>
+          <td style="color:var(--red)">Far below — aspirational benchmark, not near-term target</td>
+          <td>Very Large</td>
+          <td>Not a 12-month target. Focus on India/SEA market first.</td>
+          <td>5+ years</td>
+        </tr>
+        <tr>
+          <td><strong>AI Consultant at Deloitte</strong></td>
+          <td>MBA, change management experience, AI framework knowledge, client-facing presence</td>
+          <td style="color:var(--accent3)">Partially aligned — business acumen matches, AI frameworks do not</td>
+          <td>Medium</td>
+          <td>Learn TOGAF / AI Transformation frameworks. Build consulting case study. Ace IIM Kozhikode capstone.</td>
+          <td>12–18 months</td>
+        </tr>
+        <tr>
+          <td><strong>Head of RevOps at Razorpay-tier</strong></td>
+          <td>8–12 yrs ops/sales, data tools, some AI exposure, people management at scale</td>
+          <td style="color:var(--green)">Very close match — this is the bullseye near-term target</td>
+          <td>Small</td>
+          <td>Get Salesforce RevOps cert. Publish 2 RevOps + AI case studies. Apply Q4 2026.</td>
+          <td>6–9 months</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PHASE 8: SALARY -->
+<div id="p8" class="section">
+  <div class="section-title">Phase 8</div>
+  <div class="section-h2">Salary Transformation Roadmap</div>
+  <div class="sal-track" style="margin-bottom:28px;">
+    <div class="sal-card">
+      <div class="sal-yr">Now · 2026</div>
+      <div class="sal-amt">₹14–17L</div>
+      <div class="sal-role">Regional Manager – Growth, magicpin</div>
+    </div>
+    <div class="sal-card">
+      <div class="sal-yr">12 Months · Mid 2027</div>
+      <div class="sal-amt">₹20–26L</div>
+      <div class="sal-role">Head of RevOps / AI Program Mgr<br>Razorpay, Urban Company, CRED tier</div>
+    </div>
+    <div class="sal-card">
+      <div class="sal-yr">18 Months · End 2027</div>
+      <div class="sal-amt">₹26–32L</div>
+      <div class="sal-role">AI Transformation Manager / GTM Lead<br>MNC GCC, Consulting, Freshworks tier</div>
+    </div>
+    <div class="sal-card">
+      <div class="sal-yr">36 Months · 2029</div>
+      <div class="sal-amt">₹35–45L</div>
+      <div class="sal-role">Head of AI Operations / VP RevOps<br>Series D+, Global SaaS, or Consulting</div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h3>Skills Needed Per Stage</h3>
+      <ul>
+        <li><strong>₹20–26L:</strong> Prompt Engineering cert + 2 AI projects + Salesforce Admin + IIM Kozhikode completion + LinkedIn repositioning</li>
+        <li><strong>₹26–32L:</strong> RAG + LangChain projects + AI PM frameworks + consulting case study + formal PM cert</li>
+        <li><strong>₹35–45L:</strong> LangGraph Agents + LLMOps + full ORION AI OS deployed + speaking/thought leadership + MBA / IIM alumni network leveraged</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Negotiation Posture</h3>
+      <ul>
+        <li><strong>Floor:</strong> ₹18L (non-negotiable — set in ORION OS)</li>
+        <li><strong>Target:</strong> ₹24–26L for first transition role</li>
+        <li><strong>Anchor:</strong> Lead with IIM Kozhikode + AI portfolio + ₹80L P&L ownership as justification</li>
+        <li><strong>Leverage:</strong> Multiple offers simultaneously. Don't apply sequentially.</li>
+        <li><strong>Non-CTC:</strong> Negotiate hybrid, people management mandate, no pure IC sales target as hard requirements</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 9: BRAND -->
+<div id="p9" class="section">
+  <div class="section-title">Phase 9</div>
+  <div class="section-h2">Personal Brand Strategy</div>
+  <div class="grid2" style="margin-bottom:20px;">
+
+    <div class="brand-pillar">
+      <h3>LinkedIn Strategy</h3>
+      <ul style="font-size:12.5px;color:var(--muted);padding-left:16px;line-height:2;">
+        <li>Headline: "RevOps + AI Systems Leader | IIM Kozhikode | ₹80L P&L | magicpin"</li>
+        <li>About section: Lead with AI transformation narrative, not sales history</li>
+        <li>Post 2× per week: AI + RevOps intersection topics</li>
+        <li>Content pillars: (1) AI tools for sales teams, (2) RevOps strategy, (3) Leadership lessons from field</li>
+        <li>Engage 5 target-company connections per day (comment meaningfully, not just "great post")</li>
+        <li>Constraint: Never signal job search — frame content as practitioner sharing learnings</li>
+        <li>Goal: 5K followers + Top Voice badge in 12 months</li>
+      </ul>
+    </div>
+
+    <div class="brand-pillar">
+      <h3>GitHub Strategy</h3>
+      <ul style="font-size:12.5px;color:var(--muted);padding-left:16px;line-height:2;">
+        <li>Profile: connect-pranav — currently under-optimized. Add bio, pinned repos, profile README</li>
+        <li>Pin top 5 AI projects (not just dashboards)</li>
+        <li>Consistent commit history: 3–4 commits/week minimum</li>
+        <li>Every project: proper README with business problem, architecture diagram, demo GIF</li>
+        <li>Add topics/tags: #revops #langchain #rag #salesai #ai-agents</li>
+        <li>Goal: 15+ repos, 200+ stars across portfolio by month 12</li>
+      </ul>
+    </div>
+
+    <div class="brand-pillar">
+      <h3>Portfolio Website Strategy</h3>
+      <ul style="font-size:12.5px;color:var(--muted);padding-left:16px;line-height:2;">
+        <li>ORION AI Business OS GitHub Pages site: add live demos for each AI project</li>
+        <li>Add "Case Studies" section with measurable business outcomes</li>
+        <li>Add "AI Tools I've Built" section with GIFs/screenshots</li>
+        <li>Add IIM Kozhikode certification prominently</li>
+        <li>Add a "Hire Me" CTA card for direct recruiter outreach</li>
+        <li>SEO: target keywords "RevOps manager Bengaluru", "AI program manager India"</li>
+      </ul>
+    </div>
+
+    <div class="brand-pillar">
+      <h3>AI Thought Leadership Strategy</h3>
+      <ul style="font-size:12.5px;color:var(--muted);padding-left:16px;line-height:2;">
+        <li>Monthly: Publish one long-form LinkedIn article (1500–2000 words) on AI + Revenue</li>
+        <li>Quarterly: Submit talk proposal to SaaSBoomi, Unplugged, IndiaMART Conclave</li>
+        <li>Weekly: Share one "AI tool I tested this week" post with business context</li>
+        <li>Build an "AI Revenue Playbook" PDF as lead magnet (helps recruiters find you)</li>
+        <li>Podcast outreach: pitch yourself to 2–3 Indian SaaS/RevOps podcasts by month 6</li>
+        <li>Newsletter: Launch "ORION Insights" — 200-word weekly on AI for B2B sales leaders</li>
+      </ul>
+    </div>
+
+  </div>
+  <div class="card">
+    <h3>Content Calendar Template (Weekly)</h3>
+    <p><strong>Monday:</strong> AI tool / tip post — "I used [Tool X] this week to [Business outcome]. Here's how..." (carousel or text) · <strong>Wednesday:</strong> Leadership or RevOps post — opinion or lesson from 9 years in the field · <strong>Friday:</strong> Engage + comment day — no new post, but comment on 10 posts by RevOps/AI influencers · <strong>Sunday:</strong> GitHub commit — progress update on current AI project · <strong>Monthly:</strong> Long-form article on a RevOps × AI topic</p>
+  </div>
+</div>
+
+<!-- PHASE 10: ACTION PLAN -->
+<div id="p10" class="section">
+  <div class="section-title">Phase 10</div>
+  <div class="section-h2">Executive Action Plan</div>
+
+  <div class="tbl-wrap" style="margin-bottom:24px;">
+    <table>
+      <thead>
+        <tr><th>Priority</th><th>Action</th><th>Timeline</th><th>Impact</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span style="color:var(--red);font-weight:700">🔴 P1</span></td><td>Rewrite LinkedIn headline + About section for RevOps/AI Manager positioning</td><td>Week 1</td><td>Recruiter findability +3×</td></tr>
+        <tr><td><span style="color:var(--red);font-weight:700">🔴 P1</span></td><td>Complete DeepLearning.AI Prompt Engineering course + get certificate</td><td>Week 1–2</td><td>AI credential on profile</td></tr>
+        <tr><td><span style="color:var(--red);font-weight:700">🔴 P1</span></td><td>Build and publish AI project #1 (Claude API + RAG) on GitHub with full README</td><td>Month 1</td><td>Portfolio proof-of-concept</td></tr>
+        <tr><td><span style="color:var(--red);font-weight:700">🔴 P1</span></td><td>Start Python Pandas (1hr/day, 6-week plan)</td><td>Month 1–2</td><td>Foundation for all AI projects</td></tr>
+        <tr><td><span style="color:var(--accent3);font-weight:700">🟡 P2</span></td><td>Enrol + complete Google AI Essentials certification</td><td>Month 2</td><td>Free, recognized, adds credibility</td></tr>
+        <tr><td><span style="color:var(--accent3);font-weight:700">🟡 P2</span></td><td>Start Salesforce Trailhead — Sales Operations Specialist path</td><td>Month 2–3</td><td>RevOps credential for Razorpay-tier</td></tr>
+        <tr><td><span style="color:var(--accent3);font-weight:700">🟡 P2</span></td><td>Build RAG project and document as business case study with ROI numbers</td><td>Month 3</td><td>Differentiator in interviews</td></tr>
+        <tr><td><span style="color:var(--accent3);font-weight:700">🟡 P2</span></td><td>Write 2 LinkedIn articles on AI + RevOps and publish — target 1K+ impressions each</td><td>Month 2–3</td><td>Thought leadership signal</td></tr>
+        <tr><td><span style="color:var(--green);font-weight:700">🟢 P3</span></td><td>Optimise GitHub profile: add README, pin 5 repos, add bio with keywords</td><td>Month 1</td><td>Recruiter GitHub check ✓</td></tr>
+        <tr><td><span style="color:var(--green);font-weight:700">🟢 P3</span></td><td>Begin applying to target companies (Razorpay, CRED, Urban Company) — RevOps roles</td><td>Month 5–6</td><td>First offer target</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Top 5 Certifications (Priority Order)</h3>
+      <ul>
+        <li><strong>1. DeepLearning.AI Prompt Engineering</strong> (Free, 1 week) — Start today</li>
+        <li><strong>2. Google AI Essentials</strong> (Coursera, ₹0 audit) — Month 2</li>
+        <li><strong>3. Salesforce Sales Operations Specialist</strong> (Trailhead, free) — Month 2–3</li>
+        <li><strong>4. AWS Cloud Practitioner</strong> (Udemy ~₹500, exam ~₹8K) — Month 4</li>
+        <li><strong>5. AI Product Management (Product School / Reforge)</strong> — Month 5–6</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Top 5 Networking Strategies</h3>
+      <ul>
+        <li><strong>1.</strong> Connect + engage with RevOps/AI leaders at Razorpay, CRED, PhonePe on LinkedIn weekly</li>
+        <li><strong>2.</strong> Attend SaaSBoomi Bengaluru events (in-person networking, no job-search signalling needed)</li>
+        <li><strong>3.</strong> IIM Kozhikode alumni network — reach out to batchmates at target companies for referrals</li>
+        <li><strong>4.</strong> Contribute to LangChain or open-source AI repos — visibility with builders</li>
+        <li><strong>5.</strong> DM 3 AI PMs/RevOps leads per week for "learning conversations" (not job asks)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Top 5 Resume Improvements</h3>
+      <ul>
+        <li><strong>1.</strong> Replace "sales manager" framing with "revenue operations + AI systems" language throughout</li>
+        <li><strong>2.</strong> Add "AI Projects" section above Education — ORION OS, HEIMDALL, RevOS</li>
+        <li><strong>3.</strong> Quantify every bullet: "Led 25-person team → 114% target achievement, ₹80L monthly P&L"</li>
+        <li><strong>4.</strong> Add IIM Kozhikode Strategic Management at top of Education section</li>
+        <li><strong>5.</strong> Add ATS keywords: "Revenue Operations", "AI Program Management", "GTM Strategy", "GenAI", "LangChain", "Prompt Engineering"</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Top 5 Interview Prep Areas</h3>
+      <ul>
+        <li><strong>1.</strong> STAR stories for: AI project ownership, cross-functional leadership, P&L accountability</li>
+        <li><strong>2.</strong> Be able to explain: what RAG is, what an AI agent does, how LLMs are fine-tuned — in business language</li>
+        <li><strong>3.</strong> RevOps case study: walk through how you'd build RevOps from scratch at a 100-person company</li>
+        <li><strong>4.</strong> AI ROI framework: how to calculate and present ROI for an AI tool deployment</li>
+        <li><strong>5.</strong> "Why AI PM / RevOps and why now?" — craft a crisp, honest 90-second narrative</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;border-color:var(--accent);background:rgba(0,212,255,0.04);">
+    <h3 style="color:var(--accent)">🎯 Final Scores Summary</h3>
+    <div class="score-row" style="margin-top:12px;">
+      <div class="score-chip primary"><div class="label">AI Readiness</div><div class="val">67/100</div></div>
+      <div class="score-chip warn"><div class="label">AI Leadership</div><div class="val">74/100</div></div>
+      <div class="score-chip good"><div class="label">AI Manager Fit</div><div class="val">71/100</div></div>
+      <div class="score-chip warn"><div class="label">AI PM Fit</div><div class="val">62/100</div></div>
+      <div class="score-chip good"><div class="label">AI Prog. Mgr Fit</div><div class="val">78/100</div></div>
+      <div class="score-chip primary"><div class="label">RevOps Head Fit</div><div class="val">82/100</div></div>
+    </div>
+    <p style="margin-top:16px;font-size:13px;color:var(--muted);">
+      <strong>Fastest route:</strong> AI Program Manager or Head of RevOps — 6–9 months. Target: Razorpay / Urban Company / CRED. ₹22–26L. <br>
+      <strong>Safest route:</strong> Head of RevOps at Series B/C SaaS + IIM Kozhikode completion as credential anchor. ₹20–24L. <br>
+      <strong>Highest paying route:</strong> AI Transformation Manager at MNC GCC / consulting — 18 months. ₹30–40L. Requires 2–3 AI deployment case studies + consulting toolkit.
+    </p>
+  </div>
+</div>
+
+<footer>
+  ORION AI Career Transformation OS · Built for <span>Pranav Kumar</span> · Generated June 2026 · github.com/connect-pranav
+</footer>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const nav = document.querySelectorAll('nav button');
+  const map = {hero:0,p1:1,p2:2,p3:3,p4:4,p5:5,p6:6,p7:7,p8:8,p9:9,p10:10};
+  if (map[id] !== undefined) nav[map[id]].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+// Animate bar fills on load
+window.addEventListener('load', () => {
+  document.querySelectorAll('.bar-fill').forEach(b => {
+    const w = b.style.width;
+    b.style.width = '0';
+    setTimeout(() => b.style.width = w, 200);
+  });
+});
+</script>
+</body>
+</html>
