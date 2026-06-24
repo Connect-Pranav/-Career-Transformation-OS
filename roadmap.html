@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap — ORION AI Academy · Pranav Kumar</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+.timeline-line { position:relative; padding-left:36px; }
+.timeline-line::before { content:''; position:absolute; left:14px; top:0; bottom:0; width:2px; background:var(--border); }
+.tl-entry { position:relative; margin-bottom:40px; }
+.tl-dot { position:absolute; left:-28px; top:6px; width:16px; height:16px; border-radius:50%; background:var(--primary); border:3px solid #fff; box-shadow:0 0 0 2px var(--primary); }
+.tl-dot.m1 { background:#6366f1; box-shadow:0 0 0 2px #6366f1; }
+.tl-dot.m2 { background:#0ea5e9; box-shadow:0 0 0 2px #0ea5e9; }
+.tl-dot.m3 { background:var(--primary); box-shadow:0 0 0 2px var(--primary); }
+.tl-dot.m4 { background:#10b981; box-shadow:0 0 0 2px #10b981; }
+.tl-dot.m5 { background:#f59e0b; box-shadow:0 0 0 2px #f59e0b; }
+.tl-dot.m6 { background:#8b5cf6; box-shadow:0 0 0 2px #8b5cf6; }
+.tl-card { background:#fff; border:1px solid var(--border); border-radius:12px; padding:24px; }
+.tl-phase { font-family:var(--head); font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--text); margin-bottom:4px; }
+.tl-title { font-size:20px; font-weight:800; color:var(--dark); margin-bottom:8px; }
+.tl-sub { font-size:13px; color:var(--text); margin-bottom:16px; }
+.tl-cols { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:16px; }
+.tl-col h5 { font-family:var(--head); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text); margin-bottom:8px; }
+.tl-col ul { list-style:none; }
+.tl-col ul li { font-size:13px; color:var(--dark); padding:3px 0; display:flex; gap:6px; align-items:flex-start; }
+.tl-col ul li::before { content:'→'; color:var(--primary); font-weight:700; margin-top:1px; }
+.outcome-box { background:var(--light-bg); border-radius:8px; padding:14px 16px; margin-top:16px; font-size:13px; color:var(--dark); }
+.outcome-box strong { color:var(--primary); }
+@media(max-width:600px){.tl-cols{grid-template-columns:1fr;}}
+.cert-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+.cert-pill { display:flex; align-items:center; gap:6px; background:#fff; border:1px solid var(--border); border-radius:6px; padding:8px 14px; font-size:12px; font-family:var(--head); font-weight:700; color:var(--dark); }
+.cert-pill .icon { font-size:16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-left">
+      <span class="topbar-item"><i class="fa fa-map-marker-alt"></i> Bengaluru, India</span>
+      <span class="topbar-item"><i class="fa fa-graduation-cap"></i> IIM Kozhikode · Strategic Management</span>
+    </div>
+    <div class="topbar-right">
+      <a href="https://github.com/connect-pranav" target="_blank"><i class="fab fa-github"></i> connect-pranav</a>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-brand">ORION <span>AI</span></a>
+    <button class="navbar-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <ul class="navbar-nav" id="navMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="courses.html">Courses</a></li>
+      <li><a href="roadmap.html" class="active">Roadmap</a></li>
+      <li><a href="tracker.html">Tracker</a></li>
+      <li><a href="tracker.html" class="btn-nav">Start Learning →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="eyebrow" style="color:rgba(255,255,255,.5);">6-Month Execution Plan</div>
+    <h1>The AI Career Roadmap</h1>
+    <p>Jul 2026 → Jan 2027 · Python → Analytics → Claude API → RAG → Agents → ORION OS</p>
+    <div class="breadcrumb"><a href="index.html">Home</a> › <span>Roadmap</span></div>
+  </div>
+</div>
+
+<!-- PHASE OVERVIEW CARDS -->
+<section class="section-pad-sm" style="background:var(--light-bg);">
+  <div class="container">
+    <div class="roadmap-phases">
+      <div class="phase-card m1">
+        <div class="phase-num">Month 1 · Jul–Aug 2026</div>
+        <div class="phase-title">🐍 Python</div>
+        <div class="phase-subtitle">Data Science & APIs</div>
+        <div class="phase-skills">
+          <span class="skill-chip">Pandas</span><span class="skill-chip">NumPy</span><span class="skill-chip">REST APIs</span><span class="skill-chip">Jupyter</span>
+        </div>
+        <div class="phase-progress">
+          <div class="phase-progress-label"><span>Phase Progress</span><span class="phase-pct">0%</span></div>
+          <div class="progress-bar"><div class="progress-fill phase-progress-fill" data-phase="m1" style="width:0%;background:#6366f1;"></div></div>
+        </div>
+      </div>
+      <div class="phase-card m2">
+        <div class="phase-num">Month 2 · Aug–Sep 2026</div>
+        <div class="phase-title">📊 Analytics</div>
+        <div class="phase-subtitle">Power BI · Looker · SQL</div>
+        <div class="phase-skills">
+          <span class="skill-chip">Power BI</span><span class="skill-chip">DAX</span><span class="skill-chip">Looker</span><span class="skill-chip">SQL</span>
+        </div>
+        <div class="phase-progress">
+          <div class="phase-progress-label"><span>Phase Progress</span><span class="phase-pct">0%</span></div>
+          <div class="progress-bar"><div class="progress-fill phase-progress-fill" data-phase="m2" style="width:0%;background:#0ea5e9;"></div></div>
+        </div>
+      </div>
+      <div class="phase-card m3">
+        <div class="phase-num">Month 3 · Sep–Oct 2026</div>
+        <div class="phase-title">🤖 Claude API</div>
+        <div class="phase-subtitle">Prompt Engineering · LLMs</div>
+        <div class="phase-skills">
+          <span class="skill-chip">Anthropic API</span><span class="skill-chip">Prompt Eng.</span><span class="skill-chip">Tool Use</span>
+        </div>
+        <div class="phase-progress">
+          <div class="phase-progress-label"><span>Phase Progress</span><span class="phase-pct">0%</span></div>
+          <div class="progress-bar"><div class="progress-fill phase-progress-fill" data-phase="m3" style="width:0%;"></div></div>
+        </div>
+      </div>
+      <div class="phase-card m4">
+        <div class="phase-num">Month 4 · Oct–Nov 2026</div>
+        <div class="phase-title">🔍 RAG</div>
+        <div class="phase-subtitle">LangChain · Vector DBs</div>
+        <div class="phase-skills">
+          <span class="skill-chip">LangChain</span><span class="skill-chip">FAISS</span><span class="skill-chip">Chroma</span><span class="skill-chip">Weaviate</span>
+        </div>
+        <div class="phase-progress">
+          <div class="phase-progress-label"><span>Phase Progress</span><span class="phase-pct">0%</span></div>
+          <div class="progress-bar"><div class="progress-fill phase-progress-fill" data-phase="m4" style="width:0%;background:#10b981;"></div></div>
+        </div>
+      </div>
+      <div class="phase-card m5">
+        <div class="phase-num">Month 5 · Nov–Dec 2026</div>
+        <div class="phase-title">🦾 AI Agents</div>
+        <div class="phase-subtitle">LangGraph · CrewAI · AutoGen</div>
+        <div class="phase-skills">
+          <span class="skill-chip">LangGraph</span><span class="skill-chip">CrewAI</span><span class="skill-chip">AutoGen</span>
+        </div>
+        <div class="phase-progress">
+          <div class="phase-progress-label"><span>Phase Progress</span><span class="phase-pct">0%</span></div>
+          <div class="progress-bar"><div class="progress-fill phase-progress-fill" data-phase="m5" style="width:0%;background:#f59e0b;"></div></div>
+        </div>
+      </div>
+      <div class="phase-card m6">
+        <div class="phase-num">Month 6 · Dec 2026–Jan 2027</div>
+        <div class="phase-title">🚀 ORION OS</div>
+        <div class="phase-subtitle">Capstone · Job Hunt</div>
+        <div class="phase-skills">
+          <span class="skill-chip">Full Stack AI</span><span class="skill-chip">LLMOps</span><span class="skill-chip">Portfolio</span>
+        </div>
+        <div class="phase-progress">
+          <div class="phase-progress-label"><span>Phase Progress</span><span class="phase-pct">0%</span></div>
+          <div class="progress-bar"><div class="progress-fill phase-progress-fill" data-phase="m6" style="width:0%;background:#8b5cf6;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DETAILED TIMELINE -->
+<section class="section-pad">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:48px;align-items:flex-start;">
+
+      <div>
+        <div class="eyebrow">Month-by-Month Detail</div>
+        <h2 class="section-heading" style="margin-bottom:40px;">What to Learn, Build & Achieve</h2>
+
+        <div class="timeline-line">
+
+          <!-- MONTH 1 -->
+          <div class="tl-entry">
+            <div class="tl-dot m1"></div>
+            <div class="tl-card">
+              <div class="tl-phase">Month 1 · Jul–Aug 2026</div>
+              <div class="tl-title">🐍 Python for Data Science & APIs</div>
+              <div class="tl-sub">Foundation sprint. 1–2 hours/day. No prior coding experience required.</div>
+              <div class="tl-cols">
+                <div class="tl-col">
+                  <h5>📖 Learn</h5>
+                  <ul>
+                    <li>Python syntax, loops, functions</li>
+                    <li>Pandas DataFrames & Series</li>
+                    <li>NumPy for numerical ops</li>
+                    <li>REST API calls with Requests</li>
+                    <li>JSON parsing & manipulation</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>🛠️ Build</h5>
+                  <ul>
+                    <li>Sales data CSV analyser</li>
+                    <li>Simple REST API caller</li>
+                    <li>Pandas revenue dashboard</li>
+                    <li>Push all to GitHub</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>📜 Certify</h5>
+                  <ul>
+                    <li>IBM Python for Data Science</li>
+                    <li>Google AI Essentials (parallel)</li>
+                    <li>Generative AI for Everyone</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="outcome-box">🎯 <strong>Month 1 Outcome:</strong> Can write Python scripts, call APIs, and manipulate data with Pandas. IBM certificate + Google AI Essentials certificate earned.</div>
+            </div>
+          </div>
+
+          <!-- MONTH 2 -->
+          <div class="tl-entry">
+            <div class="tl-dot m2"></div>
+            <div class="tl-card">
+              <div class="tl-phase">Month 2 · Aug–Sep 2026</div>
+              <div class="tl-title">📊 Analytics: Power BI, SQL & Looker</div>
+              <div class="tl-sub">Deepen your existing analytics muscle with certification-grade expertise.</div>
+              <div class="tl-cols">
+                <div class="tl-col">
+                  <h5>📖 Learn</h5>
+                  <ul>
+                    <li>Power BI DAX measures</li>
+                    <li>Data modelling (star schema)</li>
+                    <li>SQL window functions</li>
+                    <li>Looker dashboards & LookML</li>
+                    <li>Report design principles</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>🛠️ Build</h5>
+                  <ul>
+                    <li>magicpin territory Power BI report</li>
+                    <li>SQL revenue analysis queries</li>
+                    <li>Looker Explore dashboard</li>
+                    <li>Publish screenshots to LinkedIn</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>📜 Certify</h5>
+                  <ul>
+                    <li>Microsoft Power BI Data Analyst (PL-300 prep)</li>
+                    <li>Google Cloud Data Analytics</li>
+                    <li>Salesforce Trailmix badges</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="outcome-box">🎯 <strong>Month 2 Outcome:</strong> PL-300-ready. Published 2 Power BI dashboards. SQL intermediate skills. LinkedIn starts generating recruiter interest.</div>
+            </div>
+          </div>
+
+          <!-- MONTH 3 -->
+          <div class="tl-entry">
+            <div class="tl-dot m3"></div>
+            <div class="tl-card">
+              <div class="tl-phase">Month 3 · Sep–Oct 2026</div>
+              <div class="tl-title">🤖 Claude API & Prompt Engineering</div>
+              <div class="tl-sub">The most important month. Directly builds toward AI PM and AI Program Manager roles.</div>
+              <div class="tl-cols">
+                <div class="tl-col">
+                  <h5>📖 Learn</h5>
+                  <ul>
+                    <li>Anthropic API fundamentals</li>
+                    <li>XML prompt structuring</li>
+                    <li>System prompts & personas</li>
+                    <li>Tool use & function calling</li>
+                    <li>Token management & costs</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>🛠️ Build</h5>
+                  <ul>
+                    <li>AI Sales Coach chatbot</li>
+                    <li>RevOps KPI Analyser</li>
+                    <li>AI ROI business case builder</li>
+                    <li>SOP Generator with Claude</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>📜 Certify</h5>
+                  <ul>
+                    <li>Building with Claude API (Coursera)</li>
+                    <li>Anthropic Academy Certificate (free)</li>
+                    <li>DeepLearning.AI Prompt Engineering</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="outcome-box">🎯 <strong>Month 3 Outcome:</strong> 3 Claude API projects live on GitHub. Official Anthropic certificate. Can demo AI tools to hiring managers confidently.</div>
+            </div>
+          </div>
+
+          <!-- MONTH 4 -->
+          <div class="tl-entry">
+            <div class="tl-dot m4"></div>
+            <div class="tl-card">
+              <div class="tl-phase">Month 4 · Oct–Nov 2026</div>
+              <div class="tl-title">🔍 RAG Systems & LangChain</div>
+              <div class="tl-sub">Learn to build systems that give AI access to your own data — the core of most enterprise AI products.</div>
+              <div class="tl-cols">
+                <div class="tl-col">
+                  <h5>📖 Learn</h5>
+                  <ul>
+                    <li>Embeddings & vector stores</li>
+                    <li>Semantic vs keyword search</li>
+                    <li>LangChain document loaders</li>
+                    <li>Chunking strategies</li>
+                    <li>Hybrid retrieval & reranking</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>🛠️ Build</h5>
+                  <ul>
+                    <li>RevOps Knowledge Base RAG</li>
+                    <li>Contract Intelligence System</li>
+                    <li>Sales Playbook Q&A bot</li>
+                    <li>Deploy on Streamlit / HuggingFace</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>📜 Certify</h5>
+                  <ul>
+                    <li>RAG (DeepLearning.AI, Coursera)</li>
+                    <li>LangChain: Chat with Your Data (free)</li>
+                    <li>Knowledge Graphs for RAG (free)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="outcome-box">🎯 <strong>Month 4 Outcome:</strong> 2 RAG apps live. Can explain embeddings, vector stores, and retrieval to non-technical stakeholders. Portfolio now interview-worthy.</div>
+            </div>
+          </div>
+
+          <!-- MONTH 5 -->
+          <div class="tl-entry">
+            <div class="tl-dot m5"></div>
+            <div class="tl-card">
+              <div class="tl-phase">Month 5 · Nov–Dec 2026</div>
+              <div class="tl-title">🦾 AI Agents: LangGraph, CrewAI & AutoGen</div>
+              <div class="tl-sub">The cutting edge. Multi-agent systems are what separate AI builders from AI users.</div>
+              <div class="tl-cols">
+                <div class="tl-col">
+                  <h5>📖 Learn</h5>
+                  <ul>
+                    <li>ReAct agent pattern</li>
+                    <li>LangGraph state machines</li>
+                    <li>CrewAI role-based agents</li>
+                    <li>Tool definition & calling</li>
+                    <li>Agent memory & persistence</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>🛠️ Build</h5>
+                  <ul>
+                    <li>ORION Sales Coach Agent</li>
+                    <li>Multi-Agent RevOps Crew</li>
+                    <li>AI SDR + Pipeline Analyst Agent</li>
+                    <li>Slack-integrated nightly digest bot</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>📜 Certify</h5>
+                  <ul>
+                    <li>Agentic AI with LangGraph, CrewAI, AutoGen (IBM Coursera)</li>
+                    <li>AI Agents in LangGraph (free DL.AI)</li>
+                    <li>Multi AI Agent Systems with crewAI (free)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="outcome-box">🎯 <strong>Month 5 Outcome:</strong> 3+ agent projects live. IBM Agentic AI certificate. GitHub has 10+ repos. Begin applying to Razorpay/CRED/Urban Company.</div>
+            </div>
+          </div>
+
+          <!-- MONTH 6 -->
+          <div class="tl-entry">
+            <div class="tl-dot m6"></div>
+            <div class="tl-card">
+              <div class="tl-phase">Month 6 · Dec 2026–Jan 2027</div>
+              <div class="tl-title">🚀 ORION AI OS Capstone + Job Hunt</div>
+              <div class="tl-sub">Integrate everything. Build the flagship portfolio project. Convert interviews to offers.</div>
+              <div class="tl-cols">
+                <div class="tl-col">
+                  <h5>📖 Learn</h5>
+                  <ul>
+                    <li>LLMOps basics (LangSmith, MLflow)</li>
+                    <li>AWS AI services overview</li>
+                    <li>AI PM interview prep</li>
+                    <li>AI ROI frameworks for execs</li>
+                    <li>STAR stories for AI projects</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>🛠️ Build</h5>
+                  <ul>
+                    <li>ORION AI Business OS v2 (agents + RAG + dashboard)</li>
+                    <li>AI career portfolio site</li>
+                    <li>2 AI PRD documents</li>
+                    <li>IIM Kozhikode capstone with AI theme</li>
+                  </ul>
+                </div>
+                <div class="tl-col">
+                  <h5>📜 Certify + Apply</h5>
+                  <ul>
+                    <li>AWS Cloud Practitioner Essentials</li>
+                    <li>AI PM Specialization (Duke)</li>
+                    <li>Apply to 5 target companies</li>
+                    <li>Target: offer by Jan 20, 2027</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="outcome-box">🎯 <strong>Month 6 Outcome:</strong> ORION AI OS live. 12+ certifications. 15+ GitHub repos. Offer from target company at ₹22–26L minimum. Salary floor: ₹18L.</div>
+            </div>
+          </div>
+
+        </div><!-- /timeline -->
+      </div>
+
+      <!-- SIDEBAR -->
+      <div>
+        <!-- CERTIFICATIONS -->
+        <div id="certs" style="background:var(--light-bg);border-radius:12px;padding:24px;margin-bottom:24px;">
+          <div class="eyebrow">Certifications</div>
+          <h3 style="font-size:18px;margin-bottom:20px;">All 12 Target Certificates</h3>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="cert-pill"><span class="icon">🐍</span> IBM Python for Data Science</div>
+            <div class="cert-pill"><span class="icon">🌐</span> Google AI Essentials</div>
+            <div class="cert-pill"><span class="icon">🧠</span> Generative AI for Everyone</div>
+            <div class="cert-pill"><span class="icon">📊</span> Microsoft Power BI (PL-300)</div>
+            <div class="cert-pill"><span class="icon">🔭</span> Google Cloud Data Analytics</div>
+            <div class="cert-pill"><span class="icon">🤖</span> Building with Claude API (Anthropic)</div>
+            <div class="cert-pill"><span class="icon">✨</span> Anthropic Academy Certificate</div>
+            <div class="cert-pill"><span class="icon">🔍</span> RAG — DeepLearning.AI</div>
+            <div class="cert-pill"><span class="icon">🤝</span> Agentic AI — IBM (LangGraph/CrewAI)</div>
+            <div class="cert-pill"><span class="icon">☁️</span> AWS Cloud Practitioner</div>
+            <div class="cert-pill"><span class="icon">🎓</span> AI PM Specialization — Duke Univ.</div>
+            <div class="cert-pill"><span class="icon">🏆</span> IIM Kozhikode Strategic Mgmt</div>
+          </div>
+        </div>
+
+        <!-- TARGET COMPANIES -->
+        <div id="companies" style="background:var(--light-bg);border-radius:12px;padding:24px;margin-bottom:24px;">
+          <div class="eyebrow">Target Companies</div>
+          <h3 style="font-size:18px;margin-bottom:16px;">Apply Month 5–6</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:6px;padding:10px 14px;font-size:13px;">
+              <span style="font-weight:700;">⭐ Razorpay</span><span style="color:var(--primary);font-size:12px;">Head RevOps · ₹25–35L</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:6px;padding:10px 14px;font-size:13px;">
+              <span style="font-weight:700;">⭐ PhonePe</span><span style="color:var(--primary);font-size:12px;">GTM Strategy · ₹22–30L</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:6px;padding:10px 14px;font-size:13px;">
+              <span style="font-weight:700;">⭐ CRED</span><span style="color:var(--primary);font-size:12px;">AI Program Mgr · ₹24–32L</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:6px;padding:10px 14px;font-size:13px;">
+              <span style="font-weight:700;">⭐ Urban Company</span><span style="color:var(--primary);font-size:12px;">RevOps Lead · ₹20–28L</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:6px;padding:10px 14px;font-size:13px;">
+              <span style="font-weight:700;">⭐ Meesho</span><span style="color:var(--primary);font-size:12px;">GTM Ops Lead · ₹20–28L</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:6px;padding:10px 14px;font-size:13px;">
+              <span style="font-weight:700;">⭐ Freshworks</span><span style="color:var(--primary);font-size:12px;">AI Solutions Mgr · ₹25–35L</span>
+            </div>
+          </div>
+          <div style="margin-top:12px;font-size:12px;color:var(--text);">Salary floor: <strong style="color:var(--primary);">₹18L non-negotiable</strong>. Target: ₹24–26L. Negotiate hybrid + people management mandate.</div>
+        </div>
+
+        <!-- SALARY SIDEBAR -->
+        <div id="salary" style="background:var(--secondary);border-radius:12px;padding:24px;color:#fff;">
+          <div style="font-family:var(--head);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px;">Salary Transformation</div>
+          <h3 style="color:#fff;font-size:18px;margin-bottom:16px;">₹17L → ₹32L+ in 12 months</h3>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px 16px;">
+              <div style="font-size:10px;color:rgba(255,255,255,.5);margin-bottom:4px;">NOW</div>
+              <div style="font-family:var(--head);font-size:20px;font-weight:900;color:#fff;">₹14–17L</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.6);">magicpin · Regional Manager</div>
+            </div>
+            <div style="background:var(--primary);border-radius:8px;padding:12px 16px;">
+              <div style="font-size:10px;color:rgba(255,255,255,.7);margin-bottom:4px;">12 MONTHS · 2027</div>
+              <div style="font-family:var(--head);font-size:20px;font-weight:900;color:#fff;">₹22–26L</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.8);">Head of RevOps · AI Program Mgr</div>
+            </div>
+            <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:12px 16px;">
+              <div style="font-size:10px;color:rgba(255,255,255,.5);margin-bottom:4px;">18–24 MONTHS</div>
+              <div style="font-family:var(--head);font-size:20px;font-weight:900;color:#fff;">₹28–35L</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.6);">AI Transformation · MNC GCC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="container">
+    <h2>Ready? Open the weekly tracker and start Month 1.</h2>
+    <p>Every task is pre-loaded. Just check boxes as you complete them. Your progress saves automatically.</p>
+    <div class="cta-btns">
+      <a href="tracker.html" class="btn btn-white">Open Tracker →</a>
+      <a href="courses.html" class="btn btn-outline" style="border-color:rgba(255,255,255,.5);color:#fff;">View All Courses</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-brand">ORION <span>AI</span></div><p class="footer-desc">Pranav Kumar's AI career transformation hub. Bengaluru, India.</p><div class="footer-social"><a href="https://github.com/connect-pranav" target="_blank"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-linkedin"></i></a></div></div>
+      <div class="footer-col"><h5>Pages</h5><ul><li><a href="index.html">Home</a></li><li><a href="courses.html">Courses</a></li><li><a href="roadmap.html">Roadmap</a></li><li><a href="tracker.html">Tracker</a></li></ul></div>
+      <div class="footer-col"><h5>Platforms</h5><ul><li><a href="https://coursera.org" target="_blank">Coursera</a></li><li><a href="https://deeplearning.ai" target="_blank">DeepLearning.AI</a></li><li><a href="https://anthropic.skilljar.com" target="_blank">Anthropic Academy</a></li></ul></div>
+      <div class="footer-col"><h5>Contact</h5><ul><li><a href="https://github.com/connect-pranav" target="_blank">GitHub</a></li><li><a href="#">LinkedIn</a></li></ul></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="container"><p>© 2026 Pranav Kumar · ORION AI Academy · Built on GitHub Pages</p></div></div>
+</footer>
+
+<div id="toast" class="toast"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
